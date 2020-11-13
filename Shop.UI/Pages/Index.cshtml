@@ -1,0 +1,54 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="section">
+    <div class="columns is-multiline is-mobile">
+        @for (int i = 0; i < 1; i++)
+        {
+            @foreach (var p in Model.Products)
+            {
+                <div class="column is-3-desktop is-4-tablet is-6-mobile">
+                    <a asp-page="Product" asp-route-name="@p.Name.Replace(" ", "-")">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="~/img/anomaly-WWesmHEgXDs-unsplash.jpg" />
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <p class="title is-size-4">@p.Name @p.Value</p>
+                                <p class="subtitle">@p.Description</p>
+
+                                @{
+                                    string cssClass = "";
+                                    string message = "";
+
+                                    if (p.StockCount == 0)
+                                    {
+                                        cssClass = "is-danger";
+                                        message = "Out of Stock";
+                                    }
+                                    else if (p.StockCount <= 10)
+                                    {
+                                        cssClass = "is-warning";
+                                        message = "Low on Stock";
+                                    }
+
+                                    if (p.StockCount <= 10)
+                                    {
+                                        <div class="notification is-paddingless has-text-centered @cssClass">
+                                            @message
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+</div>
